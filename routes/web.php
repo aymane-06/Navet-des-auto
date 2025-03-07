@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ShuttleOfferController;
+use App\Http\Controllers\TagController;
 use App\Http\Middleware\Permissed;
 use App\Http\Middleware\role;
 use Illuminate\Support\Facades\Route;
@@ -33,6 +34,13 @@ Route::middleware([Permissed::class])->group(function () {
         Route::get('/roles/{role:id}/edit', [RoleController::class, 'edit'])->name('admin.roles.edit');
         Route::post('/roles/{role:id}/edit', [RoleController::class, 'update'])->name('admin.roles.update');
         Route::delete('/roles/{role:id}/delete', [RoleController::class, 'destroy'])->name('admin.roles.delete');
+
+        //tags route
+        Route::get('/tags', [TagController::class, 'index'])->name('admin.tags');
+        Route::post('/tags', [TagController::class, 'store'])->name('admin.tags.store');
+        Route::put('/tags/{tag:id}', [TagController::class, 'update'])->name('admin.tags.update');
+        Route::delete('/tags/{tag:id}', [TagController::class, 'destroy'])->name('admin.tags.destroy');
+
     });
 
     Route::middleware(role::class . ':company')->prefix('company')->group(function () {
@@ -43,4 +51,5 @@ Route::middleware([Permissed::class])->group(function () {
         Route::put('/shuttle/{shuttle_offer:id}/edit',[ShuttleOfferController::class,'update'])->name('shuttle_Offer.update');
         Route::delete('/shuttle/{shuttle_offer:id}/delete',[ShuttleOfferController::class,'destroy'])->name('shuttle_Offer.delete');
     });
+
 });

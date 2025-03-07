@@ -30,6 +30,8 @@
                 <a href="/admin/subscriptions" class="hover:text-dutch-white transition">Abonnements</a>
                 @if (auth()->user()->role->name == 'admin')
                     <a href="/admin/roles" class="hover:text-dutch-white transition">Rôles</a>
+                    <a href="/admin/tags" class="hover:text-dutch-white transition font-bold">Tags</a>
+
                 
                 @endif
                 <div class="relative">

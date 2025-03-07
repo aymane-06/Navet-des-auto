@@ -15,7 +15,7 @@ class Permissed
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // if (auth()->check() && auth()->user()->role_id != 1) {
+        // if (auth()->check()&& auth()->user()->role_id != 1) {
         //     // dd($request->route()->getActionName());
         //     // dd(auth()->user()->role->permissions->pluck('action'),$request->route()->getActionName());
         // //    dd(auth()->user()->role->permissions->pluck('action')->contains($request->route()->getActionName()));

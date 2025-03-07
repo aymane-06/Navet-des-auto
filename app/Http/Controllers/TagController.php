@@ -13,7 +13,8 @@ class TagController extends Controller
      */
     public function index()
     {
-        //
+        $tags=Tag::paginate(10);
+        return view("Tags.index",compact('tags'));
     }
 
     /**
@@ -29,7 +30,7 @@ class TagController extends Controller
      */
     public function store(StoreTagRequest $request)
     {
-        //
+        dd($request);
     }
 
     /**
