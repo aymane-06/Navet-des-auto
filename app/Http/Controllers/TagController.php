@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Tag;
 use App\Http\Requests\StoreTagRequest;
 use App\Http\Requests\UpdateTagRequest;
+use League\CommonMark\Normalizer\SlugNormalizer;
+use Str;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class TagController extends Controller
 {
@@ -30,7 +33,11 @@ class TagController extends Controller
      */
     public function store(StoreTagRequest $request)
     {
-        dd($request);
+        $tag=new Tag();
+        $tag->name=$request->name;
+        $tag->slug=Str::slug($request->name);
+        $tag->save();
+        return redirect()->route('admin.tags');
     }
 
     /**
@@ -46,7 +53,7 @@ class TagController extends Controller
      */
     public function edit(Tag $tag)
     {
-        //
+        return response()->json($tag);
     }
 
     /**
@@ -54,7 +61,13 @@ class TagController extends Controller
      */
     public function update(UpdateTagRequest $request, Tag $tag)
     {
-        //
+        // dd($tag);
+        $tag->name=$request->name;
+        $tag->slug=Str::slug($request->name);
+        $tag->save();
+        return redirect()->route('admin.tags');
+
+
     }
 
     /**
@@ -62,6 +75,8 @@ class TagController extends Controller
      */
     public function destroy(Tag $tag)
     {
-        //
+        // dd($tag);
+        $tag->delete();
+        return response()->json('deleted!');
     }
 }

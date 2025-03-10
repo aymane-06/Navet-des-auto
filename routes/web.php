@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ShuttleOfferController;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\UserController;
 use App\Http\Middleware\Permissed;
 use App\Http\Middleware\role;
 use Illuminate\Support\Facades\Route;
@@ -38,8 +39,15 @@ Route::middleware([Permissed::class])->group(function () {
         //tags route
         Route::get('/tags', [TagController::class, 'index'])->name('admin.tags');
         Route::post('/tags', [TagController::class, 'store'])->name('admin.tags.store');
-        Route::put('/tags/{tag:id}', [TagController::class, 'update'])->name('admin.tags.update');
-        Route::delete('/tags/{tag:id}', [TagController::class, 'destroy'])->name('admin.tags.destroy');
+        Route::get('/tags/{tag:id}',[TagController::class,'edit'])->name('admin.tags.edit');
+        Route::post('/tags/{tag:id}/update', [TagController::class, 'update'])->name('admin.tags.update');
+        Route::delete('/tags/{tag:id}/delete', [TagController::class, 'destroy'])->name('admin.tags.destroy');
+
+        //
+        Route::get('/users', [UserController::class, 'index'])->name('admin.users');
+        Route::post('/users', [UserController::class, 'store'])->name('admin.users.store');
+        Route::put('/users/{user:id}', [UserController::class, 'update'])->name('admin.users.update');
+        Route::delete('/users/{user:id}', [UserController::class, 'destroy'])->name('admin.users.destroy');
 
     });
 

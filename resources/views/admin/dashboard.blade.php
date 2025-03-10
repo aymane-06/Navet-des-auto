@@ -31,6 +31,8 @@
                 @if (auth()->user()->role->name == 'admin')
                     <a href="/admin/roles" class="hover:text-dutch-white transition">Rôles</a>
                     <a href="/admin/tags" class="hover:text-dutch-white transition font-bold">Tags</a>
+                    <a href="/admin/users" class="hover:text-dutch-white transition font-bold">Users</a>
+
 
                 
                 @endif

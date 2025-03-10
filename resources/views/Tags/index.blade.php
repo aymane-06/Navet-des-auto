@@ -31,6 +31,7 @@
                 @if (auth()->user()->role->name == 'admin')
                     <a href="/admin/roles" class="hover:text-dutch-white transition">Rôles</a>
                     <a href="/admin/tags" class="hover:text-dutch-white transition font-bold">Tags</a>
+                    <a href="/admin/users" class="hover:text-dutch-white transition font-bold">Users</a>
                 @endif
                 <div class="relative group">
                     <button class="flex items-center space-x-1 hover:text-dutch-white transition">
@@ -70,6 +71,7 @@
                 <h2 class="text-2xl font-bold text-wine mb-4" id="formTitle">Nouveau Tag</h2>
                 <form id="tagFormElement" method="POST" action="{{ route('admin.tags.store') }}">
                     @csrf
+                    
                     <div class="mb-4">
                         <label class="block text-gray-700 mb-2">Nom du tag</label>
                         <input type="text" name="name" id="tagName"
@@ -141,38 +143,42 @@
             form.classList.toggle('hidden');
             document.getElementById('formTitle').textContent = 'Nouveau Tag';
             document.getElementById('tagFormElement').action = "{{ route('admin.tags.store') }}";
-            document.getElementById('tagName').value = '';
-            document.getElementById('tagId').value = '';
+
+            
         }
 
-        function editTag(id, name) {
+        async function editTag(id) {
+            await fetch(`/admin/tags/${id}`)
+            .then(res=>res.json())
+            .then(data=>{
+                console.log(data);
+                
+                document.getElementById('tagName').value=data.name;
+            })
+            
             toggleTagForm();
-            document.getElementById('formTitle').textContent = 'Modifier Tag';
-            document.getElementById('tagName').value = name;
-            document.getElementById('tagId').value = id;
-            document.getElementById('tagFormElement').action = `{{ url('admin/tags') }}/${id}`;
+            document.getElementById('tagFormElement').action = ` /admin/tags/${id}/update`;
+
         }
 
         async function confirmDelete(id) {
             if(confirm('Êtes-vous sûr de vouloir supprimer ce tag ?')) {
-                try {
-                    const response = await fetch(`{{ url('admin/tags') }}/${id}`, {
+
+                    await fetch(`/admin/tags/${id}/delete`, {
                         method: 'DELETE',
                         headers: {
                             'X-CSRF-TOKEN': '{{ csrf_token() }}',
                             'Content-Type': 'application/json'
                         }
-                    });
+                    }).then(res=>res.json())
+                    .then(data=>{
+                        console.log(data);
+                        
+                    })
+                    window.location.reload();
                     
-                    const result = await response.json();
-                    if(result.success) {
-                        alert(result.message);
-                        window.location.reload();
-                    }
-                } catch (error) {
-                    console.error('Erreur:', error);
-                    alert('Une erreur est survenue lors de la suppression');
-                }
+                    
+                
             }
         }
     </script>
